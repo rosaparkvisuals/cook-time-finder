@@ -372,7 +372,8 @@ async function askClaude(question) {
   });
   if (!response.ok) throw new Error("API error");
   const data = await response.json();
-  const text = data.content?.find((b) => b.type === "text")?.text || "";
+console.log("Full response:", JSON.stringify(data));
+const text = data?.content?.[0]?.text || data?.content?.find?.((b) => b.type === "text")?.text || "";
   try {
     const clean = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```\s*$/, "").trim();
     return JSON.parse(clean);
