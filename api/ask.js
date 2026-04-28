@@ -1,6 +1,5 @@
 export default async function handler(req, res) {
   try {
-    const body = typeof req.body === "string" ? req.body : JSON.stringify(req.body);
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
@@ -8,13 +7,16 @@ export default async function handler(req, res) {
         "x-api-key": process.env.ANTHROPIC_API_KEY,
         "anthropic-version": "2023-06-01",
       },
-      body: body,
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        system: req.body.system,
+        messages: req.body.messages,
+      }),
     });
     const data = await response.json();
-    console.log("API response:", JSON.stringify(data));
     res.status(200).json(data);
   } catch (err) {
-    console.log("Error:", err.message);
     res.status(500).json({ error: err.message });
   }
 }
