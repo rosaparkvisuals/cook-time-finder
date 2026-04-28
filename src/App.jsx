@@ -360,7 +360,7 @@ If the question is not about cooking, food, or kitchen topics, respond with:
 {"offTopic": true}`;
 
 async function askClaude(question) {
-  const response = await fetch("https://api.anthropic.com/api/ask", {
+  const response = await fetch("api/ask", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
